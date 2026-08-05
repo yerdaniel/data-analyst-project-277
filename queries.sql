@@ -1,8 +1,8 @@
--- Consulta para contar el numero total de clientes registrados en la tabla customers
+--Consulta para contar el numero total de clientes registrados en la tabla customers
 SELECT COUNT(*) AS customers_count
 FROM customers;
 
--- Reporte de los 10 vendedores con mayor ingreso generado por sus ventas
+--Reporte de los 10 vendedores con mayor ingreso generado por sus ventas
 select 
 e.first_name ||' '|| e.last_name as seller,
 SUM(s.quantity) as operations,
