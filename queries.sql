@@ -50,3 +50,16 @@ from sales as s
 group by day_of_week, sales_person_id, seller
 order by day_of_week, seller;
 
+--Consulta para contar cuantos clientes hay cada grupo de edad 
+select 
+case 
+	when age between 16 and 25 then '16-25'
+	when age between 26 and 40 then '26-40'
+	else '40+'
+end as age_category,
+count(*) as age_count
+from customers 
+group by age_category
+order by age_category;
+
+
