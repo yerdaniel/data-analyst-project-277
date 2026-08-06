@@ -17,7 +17,7 @@ order by income desc
 limit 10; 
 
 
-
+--Reporte de vendedores con un promedio de ingresos por venta inferior al promedio general
 with tab1 as (
 select 
 AVG(s.quantity*p.price) as promgen
