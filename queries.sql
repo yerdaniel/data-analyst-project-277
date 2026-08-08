@@ -62,4 +62,15 @@ from customers
 group by age_category
 order by age_category;
 
+--Consulta para contar Clientes unico y sus ingresos por mes 
+SELECT 
+    TO_CHAR(s.sale_date, 'YYYY-MM') AS selling_month,
+    COUNT(DISTINCT s.customer_id) AS total_customers,
+    FLOOR(SUM(s.quantity * p.price)) AS income
+FROM sales AS s
+INNER JOIN products AS p
+    ON s.product_id = p.product_id
+GROUP BY TO_CHAR(s.sale_date, 'YYYY-MM')
+ORDER BY selling_month ASC;
+
 
