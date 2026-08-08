@@ -74,3 +74,31 @@ GROUP BY TO_CHAR(s.sale_date, 'YYYY-MM')
 ORDER BY selling_month ASC;
 
 
+--Consulta para encontrar el cliente donde su primera compra fue en promocion 
+with tab1 as (
+SELECT 
+   s.customer_id,
+   s.sale_date,
+   s.sales_person_id,
+   p.price,
+   ROW_NUMBER() OVER (
+      PARTITION BY s.customer_id 
+        ORDER BY s.sale_date ASC, s.sales_id ASC
+    ) AS rn
+    FROM sales AS s
+    INNER JOIN products AS p 
+        ON s.product_id = p.product_id )
+
+select 
+c.first_name ||' '|| c.last_name as customer,
+t.sale_date,
+e.first_name ||' '|| e.last_name as seller
+from tab1 as t
+	inner join customers as c 
+		on c.customer_id=t.customer_id
+			inner join employees as e  
+				on e.employee_id=t.sales_person_id 
+where t.rn = 1 and t.price= 0
+order by t.customer_id ;
+			
+
