@@ -5,8 +5,8 @@ FROM customers;
 -- Reporte de los 10 vendedores con mayor ingreso generado por sus ventas
 select 
 e.first_name ||' '|| e.last_name as seller,
-SUM(s.quantity) as operations,
-SUM(s.quantity*p.price) as income
+COUNT(s.sales_person_id) as operations,
+FLOOR(SUM(s.quantity*p.price)) as income
 from sales as s 
 	inner join employees as e  
 		on s.sales_person_id = e.employee_id
