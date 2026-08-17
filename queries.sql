@@ -38,17 +38,22 @@ having FLOOR(AVG(s.quantity*p.price)) < (select promgen from tab1)
 order by average_income asc;
 
 --Reporte de ingresos por día de la semana para cada vendedor
-select 
-e.first_name ||' '|| e.last_name as seller,
-TO_CHAR(s.sale_date, 'fmday') AS day_of_week,
-FLOOR(SUM(s.quantity*p.price)) as income
-from sales as s 
-	inner join products as p
-		on s.product_id = p.product_id
-			inner join employees as e 
-				on e.employee_id=s.sales_person_id
-group by day_of_week, sales_person_id, seller
-order by day_of_week, seller;
+SELECT 
+    e.first_name || ' ' || e.last_name AS seller,
+     LOWER(TO_CHAR(s.sale_date, 'fmDay')) AS day_of_week,
+    ROUND(SUM(s.quantity * p.price))::bigint AS income
+FROM sales AS s 
+INNER JOIN products AS p
+    ON s.product_id = p.product_id
+INNER JOIN employees AS e 
+    ON e.employee_id = s.sales_person_id
+GROUP BY 
+    EXTRACT(ISODOW FROM s.sale_date),
+    LOWER(TO_CHAR(s.sale_date, 'fmDay')),
+    e.first_name || ' ' || e.last_name
+ORDER BY 
+    EXTRACT(ISODOW FROM s.sale_date) ASC,
+    seller ASC;
 
 --Consulta para contar cuantos clientes hay cada grupo de edad 
 select 
