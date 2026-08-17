@@ -41,7 +41,7 @@ order by average_income asc;
 SELECT 
     e.first_name || ' ' || e.last_name AS seller,
      LOWER(TO_CHAR(s.sale_date, 'fmDay')) AS day_of_week,
-    ROUND(SUM(s.quantity * p.price))::bigint AS income
+    FLOOR(SUM(s.quantity * p.price))::bigint AS income
 FROM sales AS s 
 INNER JOIN products AS p
     ON s.product_id = p.product_id
@@ -54,7 +54,6 @@ GROUP BY
 ORDER BY 
     EXTRACT(ISODOW FROM s.sale_date) ASC,
     seller ASC;
-
 --Consulta para contar cuantos clientes hay cada grupo de edad 
 select 
 case 
